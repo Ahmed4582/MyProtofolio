@@ -9,7 +9,7 @@ i18n
   .use(initReactI18next)
   .init({
     supportedLngs: ['en', 'ar'], // اللغات المدعومة
-    fallbackLng: 'en', // اللغة الافتراضية
+    fallbackLng: 'ar', // اللغة الافتراضية
     detection: {
       order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag'],
       caches: ['cookie']
