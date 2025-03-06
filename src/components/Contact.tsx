@@ -96,7 +96,7 @@ const Contact = () => {
                 {t('contact.phone')}
               </label>
               <input
-                type="number"
+                type="text"
                 id="phone"
                 name="phone"
                 value={formData.phone}
