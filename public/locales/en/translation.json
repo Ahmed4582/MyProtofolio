@@ -1,0 +1,44 @@
+{
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "skills": "Skills",
+      "projects": "Projects",
+      "contact": "Contact"
+    },
+    "hero": {
+      "hello": "Hi, I'm",
+      "contact": "Contact Me",
+      "projects": "My Projects",
+      "name":"Ahmed Nasser",
+      "des":"A Frontend Developer specializing in building exceptional user experiences, with a focus on performance, smooth interactions, and responsive design. I have experience in developing modern web applications using React.js, TypeScript, Tailwind CSS, and I strive to write clean, reusable, and maintainable code. Passionate about improving user experience through UI/UX best practices, I stay up-to-date with the latest web development trends to ensure fast, secure, and cross-device compatible applications.",
+      "download":"Download CV"
+    },
+    "about": {
+      "title": "About Me",
+      "description1": "I am a Front-end Developer with over two years of experience in building modern and highly responsive web applications. I specialize in React.js and focus on enhancing user experience through advanced technologies like Next.js, TypeScript, and Tailwind CSS. I have strong expertise in creating dynamic user interfaces and optimizing performance using JavaScript and TypeScript. Additionally, I am proficient in frontend design and development with HTML, CSS, Sass, and Bootstrap. I continuously stay up to date with the latest web development trends to ensure innovative and efficient solutions. I strongly believe in the importance of User Experience (UX) and well-crafted design, striving to create intuitive and visually appealing interfaces. I am also experienced in working within Agile and Scrum environments, collaborating with cross-functional teams to deliver high-quality projects efficiently."
+            
+    },
+    "skills": {
+      "title": "Technical Skills"
+    },
+    "projects": {
+      "title": "My Projects",
+      "show":"Show Project"
+    },
+    "contact": {
+      "title": "Contact Me",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send Message",
+      "phone":"PhoneNumber"
+    },
+    "certificate":"Download Certificate",
+      "footer": {
+        "rights": "All rights reserved",
+        "by": "Designed by"
+      }    
+
+  }
+  
