@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeft, ExternalLink, Github, Code2, Star,
   ChevronRight, Layers, Layout, Globe, Package, Cpu, Code,
 } from "lucide-react";
 import Swal from 'sweetalert2';
+import PropTypes from 'prop-types';
 
 const TECH_ICONS = {
   React: Globe,
@@ -33,6 +34,10 @@ const TechBadge = ({ tech }) => {
   );
 };
 
+TechBadge.propTypes = {
+  tech: PropTypes.string.isRequired,
+};
+
 const FeatureItem = ({ feature }) => {
   return (
     <li className="group flex items-start space-x-3 p-2.5 md:p-3.5 rounded-xl hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10">
@@ -45,6 +50,10 @@ const FeatureItem = ({ feature }) => {
       </span>
     </li>
   );
+};
+
+FeatureItem.propTypes = {
+  feature: PropTypes.string.isRequired,
 };
 
 const ProjectStats = ({ project }) => {
@@ -78,6 +87,13 @@ const ProjectStats = ({ project }) => {
   );
 };
 
+ProjectStats.propTypes = {
+  project: PropTypes.shape({
+    TechStack: PropTypes.arrayOf(PropTypes.string),
+    Features: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+};
+
 const handleGithubClick = (githubLink) => {
   if (githubLink === 'Private') {
     Swal.fire({
@@ -98,7 +114,6 @@ const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -110,7 +125,7 @@ const ProjectDetails = () => {
         ...selectedProject,
         Features: selectedProject.Features || [],
         TechStack: selectedProject.TechStack || [],
-        Github: selectedProject.Github || 'https://github.com/EkiZR',
+        Github: selectedProject.Github || 'https://github.com/Ahmed4582',
       };
       setProject(enhancedProject);
     }
@@ -227,7 +242,9 @@ const ProjectDetails = () => {
                   src={project.Img}
                   alt={project.Title}
                   className="w-full  object-cover transform transition-transform duration-700 will-change-transform group-hover:scale-105"
-                  onLoad={() => setIsImageLoaded(true)}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/10 transition-colors duration-300 rounded-2xl" />
               </div>
@@ -253,7 +270,7 @@ const ProjectDetails = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes blob {
           0% {
             transform: translate(0px, 0px) scale(1);

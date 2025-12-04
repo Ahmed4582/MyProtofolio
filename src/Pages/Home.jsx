@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, memo } from "react"
+import { useState, useEffect, useCallback, memo } from "react"
+import PropTypes from 'prop-types'
 import { Github, Linkedin, Mail, ExternalLink, Instagram, Sparkles } from "lucide-react"
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import AOS from 'aos'
@@ -18,6 +19,7 @@ const StatusBadge = memo(() => (
     </div>
   </div>
 ));
+StatusBadge.displayName = 'StatusBadge';
 
 const MainTitle = memo(() => (
   <div className="space-y-2" data-aos="fade-up" data-aos-delay="600">
@@ -38,12 +40,17 @@ const MainTitle = memo(() => (
     </h1>
   </div>
 ));
+MainTitle.displayName = 'MainTitle';
 
 const TechStack = memo(({ tech }) => (
   <div className="px-4 py-2 hidden sm:block rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-sm text-gray-300 hover:bg-white/10 transition-colors">
     {tech}
   </div>
 ));
+TechStack.displayName = 'TechStack';
+TechStack.propTypes = {
+  tech: PropTypes.string.isRequired,
+};
 
 const CTAButton = memo(({ href, text, icon: Icon }) => (
   <a href={href}>
@@ -61,6 +68,12 @@ const CTAButton = memo(({ href, text, icon: Icon }) => (
     </button>
   </a>
 ));
+CTAButton.displayName = 'CTAButton';
+CTAButton.propTypes = {
+  href: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
+};
 
 const SocialLink = memo(({ icon: Icon, link }) => (
   <a href={link} target="_blank" rel="noopener noreferrer">
@@ -72,17 +85,22 @@ const SocialLink = memo(({ icon: Icon, link }) => (
     </button>
   </a>
 ));
+SocialLink.displayName = 'SocialLink';
+SocialLink.propTypes = {
+  icon: PropTypes.elementType.isRequired,
+  link: PropTypes.string.isRequired,
+};
 
 // Constants
 const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
-const WORDS = ["Network & Telecom Student", "Tech Enthusiast"];
-const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"];
+const WORDS = ["Computer Science & Math Student", "Tech Enthusiast"];
+const TECH_STACK = ["React", "Javascript", "Next.js", "Typescript" ];
 const SOCIAL_LINKS = [
-  { icon: Github, link: "https://github.com/EkiZR" },
-  { icon: Linkedin, link: "https://www.linkedin.com/in/ekizr/" },
-  { icon: Instagram, link: "https://www.instagram.com/ekizr._/?hl=id" }
+  { icon: Github, link: "https://github.com/Ahmed4582" },
+  { icon: Linkedin, link: "https://www.linkedin.com/in/ahmed-naser-924253392/" },
+  { icon: Instagram, link: "https://www.instagram.com/xahmed_naserx_/?hl=id" }
 ];
 
 const Home = () => {
@@ -139,17 +157,13 @@ const Home = () => {
       isTyping ? TYPING_SPEED : ERASING_SPEED
     );
     return () => clearTimeout(timeout);
-  }, [handleTyping]);
+  }, [handleTyping, isTyping]);
 
   // Lottie configuration
   const lottieOptions = {
     src: "https://lottie.host/58753882-bb6a-49f5-a2c0-950eda1e135a/NLbpVqGegK.lottie",
     loop: true,
     autoplay: true,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-      progressiveLoad: true,
-    },
     style: { width: "100%", height: "100%" },
     className: `w-full h-full transition-all duration-500 ${
       isHovering 

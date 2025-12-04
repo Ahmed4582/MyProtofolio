@@ -1,5 +1,6 @@
-import React, { useEffect, memo, useMemo } from "react"
-import { FileText, Code, Award, Globe, ArrowUpRight, Sparkles, UserCheck } from "lucide-react"
+import { useEffect, memo, useMemo } from "react"
+import PropTypes from 'prop-types'
+import { FileText, Code, Award, Globe, ArrowUpRight, Sparkles } from "lucide-react"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -26,6 +27,7 @@ const Header = memo(() => (
     </p>
   </div>
 ));
+Header.displayName = 'Header';
 
 const ProfileImage = memo(() => (
   <div className="flex justify-end items-center sm:p-12 sm:py-0 sm:pb-0 p-0 py-2 pb-2">
@@ -53,7 +55,7 @@ const ProfileImage = memo(() => (
             src="/Photo.jpg"
             alt="Profile"
             className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
-            loading="lazy"
+            loading="eager"
           />
 
           {/* Advanced hover effects - desktop only */}
@@ -67,6 +69,7 @@ const ProfileImage = memo(() => (
     </div>
   </div>
 ));
+ProfileImage.displayName = 'ProfileImage';
 
 const StatCard = memo(({ icon: Icon, color, value, label, description, animation }) => (
   <div data-aos={animation} data-aos-duration={1300} className="relative group">
@@ -111,6 +114,15 @@ const StatCard = memo(({ icon: Icon, color, value, label, description, animation
     </div>
   </div>
 ));
+StatCard.displayName = 'StatCard';
+StatCard.propTypes = {
+  icon: PropTypes.elementType.isRequired,
+  color: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  label: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  animation: PropTypes.string.isRequired,
+};
 
 const AboutPage = () => {
   // Memoized calculations
@@ -118,7 +130,7 @@ const AboutPage = () => {
     const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
     const storedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
     
-    const startDate = new Date("2021-11-06");
+    const startDate = new Date("2023-11-06");
     const today = new Date();
     const experience = today.getFullYear() - startDate.getFullYear() -
       (today < new Date(today.getFullYear(), startDate.getMonth(), startDate.getDate()) ? 1 : 0);
@@ -198,14 +210,15 @@ const AboutPage = () => {
               data-aos-duration="1000"
             >
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
-                Hello, I'm
+                Hello, I&apos;m
               </span>
               <span 
                 className="block mt-2 text-gray-200"
                 data-aos="fade-right"
                 data-aos-duration="1300"
               >
-                Eki Zulfar Rachman
+              
+              Ahmed Naser Metwally
               </span>
             </h2>
             
@@ -214,8 +227,7 @@ const AboutPage = () => {
               data-aos="fade-right"
               data-aos-duration="1500"
             >
-             Seorang lulusan Teknik Jaringan Komputer dan Telekomunikasi yang memiliki ketertarikan besar dalam pengembangan Front-End. Saya berfokus pada menciptakan pengalaman digital yang menarik dan selalu berusaha memberikan solusi terbaik dalam setiap proyek yang saya kerjakan.
-            </p>
+Frontend Developer with 1.5+ years of experience building responsive web apps using React, Next.js, TypeScript, JavaScript, HTML, CSS, Sass, and Tailwind. Experienced in solo and team projects, familiar with Supabase and Convex, and passionate about clean, efficient code and interactive web experiences.      </p>
 
                {/* Quote Section */}
       <div 
@@ -235,12 +247,12 @@ const AboutPage = () => {
         </div>
         
         <blockquote className="text-gray-300 text-center lg:text-left italic font-medium text-sm relative z-10 pl-6">
-          "Leveraging AI as a professional tool, not a replacement."
+          &ldquo;Leveraging AI as a professional tool, not a replacement.&rdquo;
         </blockquote>
       </div>
 
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
-              <a href="https://drive.google.com/drive/folders/1BOm51Grsabb3zj6Xk27K-iRwI1zITcpo" className="w-full lg:w-auto">
+              <a href="https://drive.google.com/file/d/1siJ54n-H7qS1zIhYdZCN1kMCRy1xvbKs/view?usp=sharing" className="w-full lg:w-auto">
               <button 
                 data-aos="fade-up"
                 data-aos-duration="800"
@@ -273,7 +285,7 @@ const AboutPage = () => {
         </a>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-20px); }

@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { supabase } from "../supabase"; 
 
 import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
+import { motion } from "framer-motion";
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
@@ -18,57 +18,64 @@ import Certificate from "../components/Certificate";
 import { Code, Award, Boxes } from "lucide-react";
 
 
-const ToggleButton = ({ onClick, isShowingMore }) => (
-  <button
-    onClick={onClick}
-    className="
-      px-3 py-1.5
-      text-slate-300 
-      hover:text-white 
-      text-sm 
-      font-medium 
-      transition-all 
-      duration-300 
-      ease-in-out
-      flex 
-      items-center 
-      gap-2
-      bg-white/5 
-      hover:bg-white/10
-      rounded-md
-      border 
-      border-white/10
-      hover:border-white/20
-      backdrop-blur-sm
-      group
-      relative
-      overflow-hidden
-    "
-  >
-    <span className="relative z-10 flex items-center gap-2">
-      {isShowingMore ? "See Less" : "See More"}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={`
-          transition-transform 
-          duration-300 
-          ${isShowingMore ? "group-hover:-translate-y-0.5" : "group-hover:translate-y-0.5"}
-        `}
-      >
-        <polyline points={isShowingMore ? "18 15 12 9 6 15" : "6 9 12 15 18 9"}></polyline>
-      </svg>
-    </span>
-    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500/50 transition-all duration-300 group-hover:w-full"></span>
-  </button>
-);
+const ToggleButton = ({ onClick, isShowingMore }) => {
+  return (
+    <button
+      onClick={onClick}
+      className="
+        px-3 py-1.5
+        text-slate-300 
+        hover:text-white 
+        text-sm 
+        font-medium 
+        transition-all 
+        duration-300 
+        ease-in-out
+        flex 
+        items-center 
+        gap-2
+        bg-white/5 
+        hover:bg-white/10
+        rounded-md
+        border 
+        border-white/10
+        hover:border-white/20
+        backdrop-blur-sm
+        group
+        relative
+        overflow-hidden
+      "
+    >
+      <span className="relative z-10 flex items-center gap-2">
+        {isShowingMore ? "See Less" : "See More"}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={`
+            transition-transform 
+            duration-300 
+            ${isShowingMore ? "group-hover:-translate-y-0.5" : "group-hover:translate-y-0.5"}
+          `}
+        >
+          <polyline points={isShowingMore ? "18 15 12 9 6 15" : "6 9 12 15 18 9"}></polyline>
+        </svg>
+      </span>
+      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500/50 transition-all duration-300 group-hover:w-full"></span>
+    </button>
+  );
+};
+
+ToggleButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  isShowingMore: PropTypes.bool.isRequired,
+};
 
 
 function TabPanel({ children, value, index, ...other }) {
@@ -116,6 +123,12 @@ const techStacks = [
   { icon: "MUI.svg", language: "Material UI" },
   { icon: "vercel.svg", language: "Vercel" },
   { icon: "SweetAlert.svg", language: "SweetAlert2" },
+  { icon: "next.jpg", language: "NextJS" },
+  { icon: "ts.png", language: "TypeScript" },
+  { icon: "ant.jpg", language: "Ant Design" },
+  { icon: "shadcn.png", language: "Shadcn UI" },
+  { icon: "subabase.jpg", language: "Supabase" },
+  { icon: "redux.png", language: "Redux" },
 ];
 
 export default function FullWidthTabs() {
@@ -301,81 +314,109 @@ export default function FullWidthTabs() {
           </Tabs>
         </AppBar>
 
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={value}
-          onChangeIndex={setValue}
-        >
-          <TabPanel value={value} index={0} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
-                {displayedProjects.map((project, index) => (
-                  <div
-                    key={project.id || index}
-                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
-                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
-                  >
-                    <CardProject
-                      Img={project.Img}
-                      Title={project.Title}
-                      Description={project.Description}
-                      Link={project.Link}
-                      id={project.id}
+        <div className="relative overflow-hidden w-full">
+          <motion.div
+            className="flex w-full"
+            style={{
+              width: "300%",
+            }}
+            animate={{
+              x: `-${value * 33.333}%`,
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 30,
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(event, info) => {
+              const threshold = 50;
+              if (info.offset.x > threshold && value > 0) {
+                setValue(value - 1);
+              } else if (info.offset.x < -threshold && value < 2) {
+                setValue(value + 1);
+              }
+            }}
+          >
+            <div className="w-1/3 flex-shrink-0">
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <div className="container mx-auto flex justify-center items-center overflow-hidden">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
+                    {displayedProjects.map((project, index) => (
+                      <div
+                        key={project.id || index}
+                        data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
+                        data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
+                      >
+                        <CardProject
+                          Img={project.Img}
+                          Title={project.Title}
+                          Description={project.Description}
+                          Link={project.Link}
+                          id={project.id}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {projects.length > initialItems && (
+                  <div className="mt-6 w-full flex justify-start">
+                    <ToggleButton
+                      onClick={() => toggleShowMore('projects')}
+                      isShowingMore={showAllProjects}
                     />
                   </div>
-                ))}
-              </div>
+                )}
+              </TabPanel>
             </div>
-            {projects.length > initialItems && (
-              <div className="mt-6 w-full flex justify-start">
-                <ToggleButton
-                  onClick={() => toggleShowMore('projects')}
-                  isShowingMore={showAllProjects}
-                />
-              </div>
-            )}
-          </TabPanel>
 
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden">
-              <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
-                {displayedCertificates.map((certificate, index) => (
-                  <div
-                    key={certificate.id || index}
-                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
-                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
-                  >
-                    <Certificate ImgSertif={certificate.Img} />
+            <div className="w-1/3 flex-shrink-0">
+              <TabPanel value={value} index={1} dir={theme.direction}>
+                <div className="container mx-auto flex justify-center items-center overflow-hidden">
+                  <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
+                    {displayedCertificates.map((certificate, index) => (
+                      <div
+                        key={certificate.id || index}
+                        data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
+                        data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
+                      >
+                        <Certificate ImgSertif={certificate.Img} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+                {certificates.length > initialItems && (
+                  <div className="mt-6 w-full flex justify-start">
+                    <ToggleButton
+                      onClick={() => toggleShowMore('certificates')}
+                      isShowingMore={showAllCertificates}
+                    />
+                  </div>
+                )}
+              </TabPanel>
             </div>
-            {certificates.length > initialItems && (
-              <div className="mt-6 w-full flex justify-start">
-                <ToggleButton
-                  onClick={() => toggleShowMore('certificates')}
-                  isShowingMore={showAllCertificates}
-                />
-              </div>
-            )}
-          </TabPanel>
 
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden pb-[5%]">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8 gap-5">
-                {techStacks.map((stack, index) => (
-                  <div
-                    key={index}
-                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
-                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
-                  >
-                    <TechStackIcon TechStackIcon={stack.icon} Language={stack.language} />
+            <div className="w-1/3 flex-shrink-0">
+              <TabPanel value={value} index={2} dir={theme.direction}>
+                <div className="container mx-auto flex justify-center items-center overflow-hidden pb-[5%]">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8 gap-5">
+                    {techStacks.map((stack, index) => (
+                      <div
+                        key={index}
+                        data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
+                        data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
+                      >
+                        <TechStackIcon TechStackIcon={stack.icon} Language={stack.language} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              </TabPanel>
             </div>
-          </TabPanel>
-        </SwipeableViews>
+          </motion.div>
+        </div>
       </Box>
     </div>
   );

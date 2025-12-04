@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import "./index.css";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
@@ -10,11 +10,11 @@ import ContactPage from "./Pages/Contact";
 import ProjectDetails from "./components/ProjectDetail";
 import WelcomeScreen from "./Pages/WelcomeScreen";
 import { AnimatePresence } from 'framer-motion';
-import notfound from "./Pages/404";
 import NotFoundPage from "./Pages/404";
+import PropTypes from 'prop-types';
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
-  return (
+    return (
     <>
       <AnimatePresence mode="wait">
         {showWelcome && (
@@ -46,6 +46,11 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
       )}
     </>
   );
+};  
+
+LandingPage.propTypes = {
+  showWelcome: PropTypes.bool.isRequired,
+  setShowWelcome: PropTypes.func.isRequired,
 };
 
 const ProjectPageLayout = () => (
@@ -56,8 +61,8 @@ const ProjectPageLayout = () => (
         <hr className="my-3 border-gray-400 opacity-15 sm:mx-auto lg:my-6 text-center" />
         <span className="block text-sm pb-4 text-gray-500 text-center dark:text-gray-400">
           © 2023{" "}
-          <a href="https://flowbite.com/" className="hover:underline">
-            EkiZR™
+          <a href="https://my-portfolio1-jade.vercel.app/" className="hover:underline">
+            Ahmed
           </a>
           . All Rights Reserved.
         </span>
@@ -70,7 +75,12 @@ function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <Routes>
         <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
         <Route path="/project/:id" element={<ProjectPageLayout />} />

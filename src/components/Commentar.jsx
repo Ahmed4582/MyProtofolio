@@ -247,9 +247,9 @@ const Komentar = () => {
                     .from('portfolio_comments')
                     .select('*')
                     .eq('is_pinned', true)
-                    .single();
+                    .maybeSingle();
                 
-                if (error && error.code !== 'PGRST116') {
+                if (error) {
                     console.error('Error fetching pinned comment:', error);
                     return;
                 }
@@ -436,7 +436,7 @@ const Komentar = () => {
                     )}
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 6px;
                 }

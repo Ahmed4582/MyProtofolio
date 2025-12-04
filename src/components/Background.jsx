@@ -1,22 +1,20 @@
-import React, { useEffect, useRef } from "react"
+import  { useEffect, useRef } from "react"
+
+const initialPositions = [
+	{ x: -4, y: 0 },
+	{ x: -4, y: 0 },
+	{ x: 20, y: -8 },
+	{ x: 20, y: -8 },
+]
 
 const AnimatedBackground = () => {
 	const blobRefs = useRef([])
-	const initialPositions = [
-		{ x: -4, y: 0 },
-		{ x: -4, y: 0 },
-		{ x: 20, y: -8 },
-		{ x: 20, y: -8 },
-	]
 
 	useEffect(() => {
-		let currentScroll = 0
 		let requestId
 
 		const handleScroll = () => {
 			const newScroll = window.pageYOffset
-			const scrollDelta = newScroll - currentScroll
-			currentScroll = newScroll
 
 			blobRefs.current.forEach((blob, index) => {
 				const initialPos = initialPositions[index]
